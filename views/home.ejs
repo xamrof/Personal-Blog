@@ -1,0 +1,21 @@
+<%- include('partials/header'); -%>
+
+<h1 class="intro"><%= homeStartingContent %></h1>
+
+<!--<p><%= homeStartingContent %></p>-->
+
+
+<% posts.forEach(post => { %>
+   <% if(post.content.length > 100){ %>
+        <h2><%= post.title %></h2>
+        <p><%= post.content.substring(0, 100) + "... " %><a class="readmore" href="/posts/<%= post.title %>">Read More</a></p>
+  <%  }else{ %>
+        <h2><%= post.title %></h2>
+        <p><%= post.content %></p>
+  <%  } %>
+<%}) %>
+
+<a href="/compose">New Post</a>
+
+
+<%- include ('partials/footer'); -%>
