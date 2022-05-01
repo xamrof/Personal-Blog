@@ -8,6 +8,10 @@ body{
     margin-bottom: 40px;
 }
 
+h2, p{
+    margin-bottom: 20px;
+ }
+
 .intro{
     margin-bottom: 40px;
 }
