@@ -14,5 +14,8 @@
   },
   "author": "Maxwell Salazar",
   "license": "ISC",
+  "engines": {
+    "node": "16.15.0"
+  },
   "description": ""
 }
