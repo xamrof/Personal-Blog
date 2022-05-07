@@ -1,7 +1,14 @@
 <%- include('partials/header'); -%>
 
-<h2><%= title %></h2>
-<p><%= content %></p>
-
+<form action="/post" method="post">
+    <div class="container-flex">
+        <h2 class="h2post"><%= title %></h2> 
+        <a class="icon-edit" href="/edit/<%= idpost %>"><img class= "icon-size" src="/img/editing.png" alt="edit image"></a>
+    </div>
+        <p class="textpost"><%= content %></p>
+<button type="submit" name="delete" class="btn btn-outline-danger" value="<%= title %>">Delete Post</button>
+</form>
 
 <%- include ('partials/footer'); -%>
+
+<!-- <i class="fa-solid fa-pen-to-square icon-size"></i> -->

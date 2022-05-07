@@ -6,12 +6,13 @@
 
 
 <% posts.forEach(post => { %>
-   <% if(post.content.length > 100){ %>
+   <% if(post.content.length > 300){ %>
         <h2><%= post.title %></h2>
-        <p><%= post.content.substring(0, 100) + "... " %><a class="readmore" href="/posts/<%= post._id %>">Read More</a></p>
+        <p><%= post.content.substring(0, 300) + "... " %><a class="readmore" href="/posts/<%= post._id %>">Read More</a></p>
   <%  }else{ %>
         <h2><%= post.title %></h2>
         <p><%= post.content %></p>
+        <a class="readmore" href="/posts/<%= post._id %>"> View Post</a>
   <%  } %>
 <%}) %>
 

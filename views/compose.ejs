@@ -1,6 +1,6 @@
 <%- include('partials/header'); -%>
 
-<h1>Compose</h1>
+<h1 id="comptitle">Compose</h1>
 
 <form action="/compose" method="post">
     <div class="mb-3">
@@ -9,7 +9,7 @@
     </div>
     <div class="mb3">
         <label for="postarea" class="form-label compStyle">Post</label>
-        <textarea class="form-control" name="postArea" id="postArea"  rows="6"></textarea>
+        <textarea class="form-control" name="postArea" id="postArea"  rows="6" required></textarea>
     </div>
     <button class="btn btn-primary buttonCompose" type="submit" name="button">Publish</button>
 </form>

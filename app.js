@@ -1,4 +1,3 @@
-const { promiseImpl } = require('ejs');
 const express = require('express');
 const { result } = require('lodash');
 const app = express();
@@ -7,16 +6,16 @@ const mongoose = require('mongoose')
 const {model, Schema} = mongoose;
 
 
-mongoose.connect("mongodb://localhost:27017/postDB", {
-    useNewUrlParser: true
+mongoose.connect("mongodb+srv://admin-formax:test123@personal-blog.a61pa.mongodb.net/postDB", {
+    useNewUrlParser: true,
 }).then(() => {
     console.log("server connected")
 }).catch(e => console.error(e));
 
 
-const homeStartingContent = "Welcome to my new personal blog";
-const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.";
-const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
+const homeStartingContent = "Welcome to my personal blog";
+const aboutContent = "This is a blog created with Node JS, Express, MongoDB and mongoose technologies.";
+const contactContent = "Linkedin";
 
 const blogSchema = new Schema({
     title: String,
@@ -45,12 +44,15 @@ app.get('/about', (req, res) =>{
 })
 
 app.get('/contact', (req, res) =>{
-    res.render('contact', {contactContent: contactContent})
+    res.render('contact')
 })
 
 app.get('/compose', (get, res) =>{
     res.render('compose')
 })
+
+
+
 
 app.post('/compose', (req, res) =>{
 
@@ -69,9 +71,56 @@ app.post('/compose', (req, res) =>{
 })
 
 
+//funcion para eliminar
+
+app.post('/post', (req, res) =>{
+
+    const deletePost = req.body.delete;
+
+    Post.findOneAndDelete({title: deletePost})
+    .then(() => console.log("item deleted"))
+    .catch(e => console.error(e));
+
+    res.redirect('/')
+})
+
+
+//function para editar 
+
+app.get('/edit/:editPost', (req, res) =>{
+    let editPost = _.lowerCase(req.params.editPost);
+    Post.find({}).then(result =>{
+        result.forEach(post => {
+            let postID= _.lowerCase(post._id)
+            if(postID === editPost){
+                res.render('edit',{
+                    title: post.title,
+                    content: post.content,
+                    idpost: post._id
+                });
+            }
+        })
+    })
+
+})
+
+app.post('/edit', (req, res) => {
+    const editTitle = req.body.titleEdit;
+    const editPost = req.body.editArea;
+    const editId = (req.body.idEdit);
+
+    Post.findByIdAndUpdate(editId, {$set: {title: editTitle, content: editPost}})
+    .then(() => res.redirect('/'))
+    .catch(e => console.error(e))
+
+})
+
+
+
+
+
 app.get('/posts/:postName', (req, res) =>{
     let postName =  _.lowerCase(req.params.postName);
-
     Post.find({}).then(result => {
         result.forEach(post => {
             let postID= _.lowerCase(post._id)
@@ -79,6 +128,7 @@ app.get('/posts/:postName', (req, res) =>{
                 res.render('post', {
                     title: post.title,
                     content: post.content,
+                    idpost: post._id
                 });
             }
         })
